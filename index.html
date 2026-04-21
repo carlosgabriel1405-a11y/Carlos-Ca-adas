@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos Cañadas — Building Change from Ecuador to the World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f2eb;
+    --earth: #2d4a22;
+    --moss: #4a7c35;
+    --gold: #c8922a;
+    --sky: #1a3a5c;
+    --cream: #ede8dc;
+    --mist: #b8c4b8;
+    --accent: #e85d26;
+    --white: #fdfaf5;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 10px; height: 10px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 1.5px solid var(--earth); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: transparent;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(245,242,235,0.95);
+    backdrop-filter: blur(12px);
+    padding: 1rem 3rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 1.2rem;
+    letter-spacing: -0.02em; color: var(--earth);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
+    text-decoration: none; opacity: 0.65;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--earth); color: var(--white) !important;
+    padding: 0.5rem 1.2rem; border-radius: 2px; opacity: 1 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--moss) !important; opacity: 1 !important; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+    padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(45,74,34,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,146,42,0.06) 0%, transparent 60%);
+  }
+  .hero-grid-line {
+    position: absolute; top: 0; left: 50%;
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.08) 30%, rgba(0,0,0,0.08) 70%, transparent);
+  }
+  .hero-left {
+    padding: 6rem 4rem 4rem 8vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--moss);
+    margin-bottom: 2rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--moss);
+  }
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 1.6rem;
+  }
+  .hero-h1 em {
+    font-style: italic; color: var(--earth);
+    position: relative; display: inline-block;
+  }
+  .hero-h1 em::after {
+    content: '';
+    position: absolute; bottom: 2px; left: 0; right: 0; height: 3px;
+    background: var(--gold); opacity: 0.5; border-radius: 2px;
+  }
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(10,10,10,0.6); line-height: 1.7;
+    max-width: 420px; margin-bottom: 2.8rem; font-weight: 400;
+  }
+  .hero-sub strong { color: var(--earth); font-weight: 600; }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--earth); color: var(--white);
+    padding: 0.9rem 2.2rem; font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: none; border-radius: 2px; text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--moss); transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--ink); font-size: 0.85rem; font-weight: 500;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    opacity: 0.7; transition: opacity 0.2s, gap 0.2s;
+    border-bottom: 1px solid currentColor; padding-bottom: 2px;
+  }
+  .btn-secondary:hover { opacity: 1; gap: 0.8rem; }
+  .hero-right {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    padding: 4rem 8vw 4rem 4rem; z-index: 2;
+  }
+  .hero-photo-wrap {
+    position: relative; width: 380px; max-width: 100%;
+  }
+  .hero-photo-bg {
+    position: absolute; inset: -16px 16px 16px -16px;
+    background: var(--earth); border-radius: 4px; opacity: 0.12;
+  }
+  .hero-photo {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top;
+    border-radius: 4px; position: relative; z-index: 1;
+    background: linear-gradient(135deg, #c8d8c0 0%, #8aad7a 40%, #2d4a22 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem; color: rgba(255,255,255,0.3);
+  }
+  .hero-photo-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #d4e4cc 0%, #a8c49a 30%, #4a7c35 70%, #2d4a22 100%);
+    border-radius: 4px; position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-photo-placeholder .initials {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 900;
+    color: rgba(255,255,255,0.9); letter-spacing: -0.04em;
+  }
+  .hero-badge {
+    position: absolute; bottom: -20px; right: -20px; z-index: 3;
+    background: var(--white); border: 1px solid rgba(0,0,0,0.08);
+    padding: 1rem 1.2rem; border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    max-width: 200px;
+  }
+  .hero-badge .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900; color: var(--earth); line-height: 1;
+  }
+  .hero-badge .label {
+    font-size: 0.72rem; color: rgba(0,0,0,0.55); font-weight: 500;
+    line-height: 1.4; margin-top: 0.3rem;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(0,0,0,0.35); z-index: 2;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* MARQUEE TICKER */
+  .ticker {
+    background: var(--earth); color: var(--white);
+    padding: 0.75rem 0; overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex; animation: marquee 30s linear infinite;
+  }
+  .ticker-item {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0 2.5rem;
+    opacity: 0.85;
+  }
+  .ticker-dot { opacity: 0.4; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTION BASE */
+  section { padding: 8rem 8vw; }
+  .section-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--moss); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 2rem; height: 2px; background: var(--moss);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 1.6rem;
+  }
+  .section-body {
+    font-size: 1.05rem; line-height: 1.8;
+    color: rgba(10,10,10,0.65); max-width: 640px;
+  }
+
+  /* ABOUT */
+  #about { background: var(--white); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 8rem;
+    align-items: start; margin-top: 4rem;
+  }
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700; line-height: 1.4; color: var(--earth);
+    font-style: italic; position: relative; padding-left: 2rem;
+  }
+  .about-quote::before {
+    content: '"'; position: absolute; left: 0; top: -0.2rem;
+    font-size: 4rem; color: var(--gold); opacity: 0.5; line-height: 1;
+    font-style: normal;
+  }
+  .about-text p {
+    font-size: 1.02rem; line-height: 1.85; color: rgba(10,10,10,0.68);
+    margin-bottom: 1.4rem;
+  }
+  .about-text p strong { color: var(--ink); font-weight: 600; }
+  .about-signature {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-style: italic;
+    color: var(--earth); margin-top: 2rem; opacity: 0.7;
+  }
+
+  /* IMPACT NUMBERS */
+  #impact {
+    background: var(--earth); color: var(--white);
+    position: relative; overflow: hidden;
+  }
+  #impact::before {
+    content: '';
+    position: absolute; top: -40%; right: -10%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .impact-header { max-width: 600px; margin-bottom: 5rem; }
+  .impact-header .section-label { color: var(--mist); }
+  .impact-header .section-title { color: var(--white); }
+  .impact-header .section-body { color: rgba(255,255,255,0.6); max-width: 500px; }
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px;
+    background: rgba(255,255,255,0.08);
+  }
+  .impact-card {
+    background: var(--earth); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    transition: background 0.3s;
+  }
+  .impact-card:hover { background: rgba(255,255,255,0.06); }
+  .impact-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 900; line-height: 1; color: var(--white);
+  }
+  .impact-num span { color: var(--gold); font-size: 0.7em; }
+  .impact-label {
+    font-size: 0.78rem; color: rgba(255,255,255,0.55);
+    text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.4;
+  }
+  .impact-bar {
+    height: 2px; background: rgba(255,255,255,0.15);
+    margin-top: 1rem; border-radius: 1px; overflow: hidden;
+  }
+  .impact-bar-fill {
+    height: 100%; background: var(--gold);
+    border-radius: 1px; transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .impact-bar-fill.animate { transform: scaleX(1); }
+
+  /* PROJECTS */
+  #projects { background: var(--paper); }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+    margin-top: 4rem;
+  }
+  .project-card {
+    background: var(--white); padding: 3rem;
+    border-radius: 2px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--earth); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card.featured { grid-column: span 2; }
+  .project-tag {
+    display: inline-block; font-size: 0.67rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--cream); color: var(--earth);
+    padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 1.5rem;
+  }
+  .project-icon {
+    font-size: 2.4rem; margin-bottom: 1.2rem;
+  }
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900; color: var(--ink);
+    letter-spacing: -0.02em; margin-bottom: 0.8rem;
+  }
+  .project-role {
+    font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--moss); margin-bottom: 1rem;
+  }
+  .project-desc {
+    font-size: 0.95rem; line-height: 1.75; color: rgba(10,10,10,0.6);
+    margin-bottom: 1.5rem;
+  }
+  .project-stats {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .project-stat { display: flex; flex-direction: column; }
+  .project-stat .n {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 900; color: var(--earth);
+  }
+  .project-stat .l { font-size: 0.72rem; color: rgba(0,0,0,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* FEATURED PROJECT (IMPETU) */
+  .impetu-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .impetu-visual {
+    background: linear-gradient(135deg, #1a3520 0%, #2d4a22 50%, #4a7c35 100%);
+    border-radius: 4px; padding: 4rem 3rem;
+    display: flex; flex-direction: column; gap: 2rem; color: var(--white);
+  }
+  .impetu-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 900; letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .impetu-logo span { color: var(--white); }
+  .impetu-tagline {
+    font-size: 0.85rem; color: rgba(255,255,255,0.6); font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* PROJECT PHOTO UPLOAD */
+  .project-photo-upload {
+    width: 100%; height: 180px;
+    border: 2px dashed rgba(45,74,34,0.25);
+    border-radius: 4px; margin-bottom: 1.2rem;
+    cursor: pointer; overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--cream);
+    position: relative;
+  }
+  .project-photo-upload:hover {
+    border-color: var(--earth); background: rgba(45,74,34,0.04);
+  }
+  .upload-preview {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.5rem;
+  }
+  .upload-preview img {
+    width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;
+  }
+  .upload-icon { font-size: 1.8rem; opacity: 0.4; }
+  .upload-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(45,74,34,0.5);
+  }
+
+  /* VENTURE */
+  #venture { background: var(--ink); color: var(--white); }
+  .venture-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 8rem;
+    align-items: center; margin-top: 4rem;
+  }
+  #venture .section-label { color: var(--mist); }
+  #venture .section-title { color: var(--white); }
+  .venture-desc {
+    font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.6);
+    margin-bottom: 2rem;
+  }
+  .venture-pills {
+    display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem;
+  }
+  .pill {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7);
+    padding: 0.4rem 1rem; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .biovay-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 3rem; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .biovay-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(74,124,53,0.2) 0%, transparent 70%);
+  }
+  .biovay-icon {
+    font-size: 4rem; margin-bottom: 1.5rem; display: block;
+  }
+  .biovay-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900; color: var(--white);
+    letter-spacing: -0.03em; margin-bottom: 0.5rem;
+  }
+  .biovay-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.12em; }
+  .biovay-logo-upload {
+    width: 100px; height: 80px; margin: 0 auto 1.2rem;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 6px; cursor: pointer; overflow: hidden;
+    transition: border-color 0.2s; background: rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .biovay-logo-upload:hover { border-color: rgba(255,255,255,0.4); }
+  .biovay-logo-preview {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.2rem;
+  }
+  .biovay-logo-preview img {
+    width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0;
+    padding: 6px;
+  }
+  .biovay-product-upload {
+    width: 100%; height: 160px; margin-top: 1.8rem;
+    border: 2px dashed rgba(255,255,255,0.15);
+    border-radius: 6px; cursor: pointer; overflow: hidden;
+    transition: border-color 0.2s; background: rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .biovay-product-upload:hover { border-color: rgba(255,255,255,0.3); }
+  .biovay-product-upload .upload-icon { color: rgba(255,255,255,0.3); }
+  .biovay-product-upload .upload-label { color: rgba(255,255,255,0.25); }
+
+  .patent-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(200,146,42,0.15); border: 1px solid rgba(200,146,42,0.3);
+    color: var(--gold); padding: 0.35rem 0.9rem;
+    border-radius: 2px; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1.5rem;
+  }
+
+  /* ACHIEVEMENTS */
+  #achievements { background: var(--cream); }
+  .ach-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 4rem;
+  }
+  .ach-item {
+    background: var(--white); padding: 2.5rem;
+    transition: background 0.25s;
+  }
+  .ach-item:hover { background: var(--paper); }
+  .ach-year {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--moss); margin-bottom: 0.8rem;
+  }
+  .ach-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; color: var(--ink);
+    line-height: 1.3; margin-bottom: 0.5rem;
+  }
+  .ach-org { font-size: 0.82rem; color: rgba(0,0,0,0.45); }
+  .ach-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+
+  /* VISION */
+  #vision {
+    background: var(--sky); color: var(--white);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  #vision::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% -20%, rgba(74,124,53,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 120%, rgba(200,146,42,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .vision-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  #vision .section-label { color: rgba(255,255,255,0.5); justify-content: center; }
+  #vision .section-label::before { background: rgba(255,255,255,0.3); }
+  .vision-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 900; line-height: 1.2; color: var(--white);
+    letter-spacing: -0.03em; margin-bottom: 2rem;
+  }
+  .vision-quote em { color: var(--gold); font-style: italic; }
+  .vision-body {
+    font-size: 1.1rem; color: rgba(255,255,255,0.65); line-height: 1.8;
+    margin-bottom: 3rem; max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--paper); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 8rem;
+    align-items: start; margin-top: 4rem;
+  }
+  .contact-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 900; line-height: 1.15; letter-spacing: -0.03em;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .contact-sub {
+    font-size: 1rem; line-height: 1.7; color: rgba(0,0,0,0.55); margin-bottom: 2.5rem;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 1.5rem; background: var(--white);
+    border-radius: 2px; text-decoration: none; color: var(--ink);
+    transition: background 0.2s, transform 0.2s;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .contact-link:hover { background: var(--cream); transform: translateX(4px); }
+  .contact-link-icon { font-size: 1.3rem; }
+  .contact-link-info { display: flex; flex-direction: column; }
+  .contact-link-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--moss); margin-bottom: 0.2rem;
+  }
+  .contact-link-value { font-size: 0.92rem; color: var(--ink); }
+  .contact-form-area {
+    background: var(--white); padding: 2.5rem; border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .form-title {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    font-weight: 700; color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,0,0,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 0.8rem 1rem;
+    background: var(--paper); border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; color: var(--ink); resize: vertical;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--earth); background: var(--white);
+  }
+  .form-group textarea { min-height: 100px; }
+  .btn-submit {
+    width: 100%; background: var(--earth); color: var(--white);
+    padding: 1rem; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border: none; border-radius: 2px;
+    transition: background 0.25s; cursor: pointer;
+  }
+  .btn-submit:hover { background: var(--moss); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.4);
+    padding: 3rem 8vw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    font-weight: 900; color: var(--white); opacity: 0.7;
+  }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a {
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color 0.2s; font-size: 0.78rem;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+    display: flex; background: var(--white);
+    border: 1px solid rgba(0,0,0,0.1); border-radius: 2px;
+    overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .lang-btn {
+    padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; border: none; cursor: pointer;
+    color: rgba(0,0,0,0.4); transition: all 0.2s;
+  }
+  .lang-btn.active { background: var(--earth); color: var(--white); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-up:nth-child(1) { transition-delay: 0s; }
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+  .fade-up:nth-child(5) { transition-delay: 0.4s; }
+
+  /* NUMBER COUNTER */
+  .count-num { display: inline-block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 7rem 8vw 4rem; }
+    .about-grid, .venture-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .ach-grid { grid-template-columns: repeat(2, 1fr); }
+    nav { padding: 1.2rem 2rem; }
+    section { padding: 5rem 6vw; }
+    .impetu-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .impact-grid { grid-template-columns: repeat(2, 1fr); }
+    .ach-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+
+  /* SPANISH OVERRIDE (hidden by default) */
+  .es { display: none; }
+  body.lang-es .en { display: none; }
+  body.lang-es .es { display: block; }
+  body.lang-es span.en { display: none; }
+  body.lang-es span.es { display: inline; }
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">CC</a>
+  <ul class="nav-links">
+    <li><a href="#about"><span class="en">About</span><span class="es">Sobre</span></a></li>
+    <li><a href="#impact"><span class="en">Impact</span><span class="es">Impacto</span></a></li>
+    <li><a href="#projects"><span class="en">Projects</span><span class="es">Proyectos</span></a></li>
+    <li><a href="#venture"><span class="en">Venture</span><span class="es">Empresa</span></a></li>
+    <li><a href="#contact" class="nav-cta"><span class="en">Connect</span><span class="es">Conectar</span></a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-line"></div>
+  <div class="hero-left">
+    <span class="hero-tag">
+      <span class="en">Social Entrepreneur · Ecuador</span>
+      <span class="es">Emprendedor Social · Ecuador</span>
+    </span>
+    <h1 class="hero-h1">
+      <span class="en">Building <em>change</em><br>from Ecuador<br>to the world.</span>
+      <span class="es">Construyendo <em>cambio</em><br>desde Ecuador<br>al mundo.</span>
+    </h1>
+    <p class="hero-sub">
+      <span class="en"><strong>12,000+ lives</strong> directly transformed. Regional leader in youth, sustainability & peace — operating across <strong>7 countries</strong>.</span>
+      <span class="es"><strong>12,000+ vidas</strong> transformadas directamente. Líder regional en juventud, sostenibilidad y paz — actuando en <strong>7 países</strong>.</span>
+    </p>
+    <div class="hero-actions">
+      <a href="#impact" class="btn-primary">
+        <span class="en">See the Impact</span>
+        <span class="es">Ver el Impacto</span>
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <span class="en">Let's connect →</span>
+        <span class="es">Conectemos →</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-bg"></div>
+      <div class="hero-photo-placeholder">
+        <span class="initials">CC</span>
+      </div>
+      <div class="hero-badge">
+        <div class="num">7</div>
+        <div class="label">
+          <span class="en">Countries of impact</span>
+          <span class="es">Países de impacto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="en">Scroll</span>
+    <span class="es">Bajar</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerContent">
+    <span class="ticker-item">UNESCO Global Citizenship</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Premio Quito Sostenible 2024</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">UNICEF Fix My Food</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">National Geographic Society</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">The Nature Conservancy</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Beca Gente que Inspira</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">USFQ Academic Excellence × 8</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">UNESCO Global Citizenship</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Premio Quito Sostenible 2024</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">UNICEF Fix My Food</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">National Geographic Society</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">UNOY Peacebuilders</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">The Nature Conservancy</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">Beca Gente que Inspira</span>
+    <span class="ticker-item ticker-dot">·</span>
+    <span class="ticker-item">USFQ Academic Excellence × 8</span>
+    <span class="ticker-item ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">
+    <span class="en">The Story</span>
+    <span class="es">La Historia</span>
+  </div>
+  <div class="about-grid">
+    <div>
+      <blockquote class="about-quote fade-up">
+        <span class="en">"I didn't wait for change. I built it."</span>
+        <span class="es">"No esperé el cambio. Lo construí."</span>
+      </blockquote>
+      <br><br>
+      <h2 class="section-title fade-up" style="font-size:clamp(1.4rem,2.5vw,2.2rem);">
+        <span class="en">From limited opportunities to global impact.</span>
+        <span class="es">De oportunidades limitadas a impacto global.</span>
+      </h2>
+    </div>
+    <div class="about-text">
+      <p class="fade-up">
+        <span class="en">Growing up in Ecuador, <strong>Carlos Cañadas</strong> understood early on that access to opportunity isn't distributed equally. Rather than accepting this reality, he chose to change it — starting at the local level and scaling outward with relentless purpose.</span>
+        <span class="es">Creciendo en Ecuador, <strong>Carlos Cañadas</strong> comprendió desde joven que el acceso a oportunidades no se distribuye de manera equitativa. En lugar de aceptar esta realidad, eligió cambiarla — comenzando a nivel local y escalando hacia afuera con propósito implacable.</span>
+      </p>
+      <p class="fade-up">
+        <span class="en">Today, he is the President of <strong>ÍMPETU</strong>, a regional youth organization operating across 7 countries, and the CEO of <strong>BIOVAY</strong>, a sustainable innovation company developing algae-based billboard solutions for the circular economy. He has worked with UNICEF, UNOY, National Geographic Society, and The Nature Conservancy — not as a spectator, but as a builder.</span>
+        <span class="es">Hoy es Presidente de <strong>ÍMPETU</strong>, una organización juvenil regional que opera en 7 países, y CEO de <strong>BIOVAY</strong>, empresa de innovación sostenible que desarrolla soluciones de vallas publicitarias con algas para la economía circular. Ha trabajado con UNICEF, UNOY, National Geographic Society y The Nature Conservancy — no como espectador, sino como constructor.</span>
+      </p>
+      <p class="fade-up">
+        <span class="en">His work has <strong>directly impacted over 12,000 people</strong> and reached more than 40,000 indirectly. He is not a product of privilege. He is proof that ambition + action can rewrite the limits of geography.</span>
+        <span class="es">Su trabajo ha <strong>impactado directamente a más de 12,000 personas</strong> y llegado a más de 40,000 de forma indirecta. No es producto del privilegio. Es prueba de que la ambición + acción pueden reescribir los límites de la geografía.</span>
+      </p>
+      <p class="about-signature fade-up">Carlos Cañadas</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT NUMBERS -->
+<section id="impact">
+  <div class="impact-header">
+    <div class="section-label">
+      <span class="en">By the Numbers</span>
+      <span class="es">En Números</span>
+    </div>
+    <h2 class="section-title">
+      <span class="en">Real impact.<br>Measurable change.</span>
+      <span class="es">Impacto real.<br>Cambio medible.</span>
+    </h2>
+    <p class="section-body">
+      <span class="en">Impact isn't a buzzword. It's data, people, and communities transformed.</span>
+      <span class="es">El impacto no es una palabra de moda. Son datos, personas y comunidades transformadas.</span>
+    </p>
+  </div>
+  <div class="impact-grid">
+    <div class="impact-card fade-up">
+      <div class="impact-num"><span class="count-num" data-target="12000">0</span><span>+</span></div>
+      <div class="impact-label">
+        <span class="en">People directly<br>impacted</span>
+        <span class="es">Personas impactadas<br>directamente</span>
+      </div>
+      <div class="impact-bar"><div class="impact-bar-fill" data-width="90"></div></div>
+    </div>
+    <div class="impact-card fade-up">
+      <div class="impact-num"><span class="count-num" data-target="40000">0</span><span>+</span></div>
+      <div class="impact-label">
+        <span class="en">People reached<br>indirectly</span>
+        <span class="es">Personas alcanzadas<br>indirectamente</span>
+      </div>
+      <div class="impact-bar"><div class="impact-bar-fill" data-width="75"></div></div>
+    </div>
+    <div class="impact-card fade-up">
+      <div class="impact-num"><span class="count-num" data-target="5900">0</span><span>+</span></div>
+      <div class="impact-label">
+        <span class="en">Volunteers<br>mobilized</span>
+        <span class="es">Voluntarios<br>movilizados</span>
+      </div>
+      <div class="impact-bar"><div class="impact-bar-fill" data-width="60"></div></div>
+    </div>
+    <div class="impact-card fade-up">
+      <div class="impact-num"><span class="count-num" data-target="22">0</span><span>+</span></div>
+      <div class="impact-label">
+        <span class="en">Projects<br>executed</span>
+        <span class="es">Proyectos<br>ejecutados</span>
+      </div>
+      <div class="impact-bar"><div class="impact-bar-fill" data-width="50"></div></div>
+    </div>
+    <div class="impact-card fade-up">
+      <div class="impact-num"><span class="count-num" data-target="7">0</span></div>
+      <div class="impact-label">
+        <span class="en">Countries<br>of impact</span>
+        <span class="es">Países<br>de impacto</span>
+      </div>
+      <div class="impact-bar"><div class="impact-bar-fill" data-width="40"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">
+    <span class="en">Work & Projects</span>
+    <span class="es">Trabajo y Proyectos</span>
+  </div>
+  <h2 class="section-title">
+    <span class="en">Building at every scale.</span>
+    <span class="es">Construyendo a toda escala.</span>
+  </h2>
+
+  <!-- IMPETU FEATURED -->
+  <div style="margin-top:4rem; background: var(--white); padding: 3rem; border-radius: 2px;" class="fade-up">
+    <span class="project-tag">
+      <span class="en">Flagship Organization</span>
+      <span class="es">Organización Principal</span>
+    </span>
+    <div class="impetu-grid">
+      <div>
+        <h3 class="project-title" style="font-size:2.2rem;">ÍMPETU</h3>
+        <p class="project-role">
+          <span class="en">President & Founder</span>
+          <span class="es">Presidente y Fundador</span>
+        </p>
+        <p class="project-desc">
+          <span class="en">A regional youth organization operating across Latin America, focused on education, youth leadership, and sustainable development. ÍMPETU mobilizes young changemakers and creates scalable programs that address systemic challenges at the intersection of youth, environment, and social equity.</span>
+          <span class="es">Una organización juvenil regional que opera en toda América Latina, enfocada en educación, liderazgo juvenil y desarrollo sostenible. ÍMPETU moviliza a jóvenes agentes de cambio y crea programas escalables que abordan desafíos sistémicos en la intersección de juventud, medio ambiente y equidad social.</span>
+        </p>
+        <div class="project-stats">
+          <div class="project-stat"><span class="n">7</span><span class="l">Countries</span></div>
+          <div class="project-stat"><span class="n">5,900+</span><span class="l">Volunteers</span></div>
+          <div class="project-stat"><span class="n">12,000+</span><span class="l">Reached</span></div>
+        </div>
+        <a href="https://www.impetuong.com" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.8rem;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);text-decoration:none;border-bottom:2px solid var(--earth);padding-bottom:2px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.65'" onmouseout="this.style.opacity='1'">
+          <span class="en">Visit impetuong.com →</span>
+          <span class="es">Visitar impetuong.com →</span>
+        </a>
+      </div>
+      <div class="impetu-visual">
+        <div>
+          <div class="impetu-logo">ÍM<span>PE</span>TU</div>
+          <div class="impetu-tagline">
+            <span class="en">Youth · Sustainability · Leadership</span>
+            <span class="es">Juventud · Sostenibilidad · Liderazgo</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:auto;">
+          <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.85rem;color:rgba(255,255,255,0.7);">
+            <span style="color:var(--gold);">●</span>
+            <span class="en">Education Programs</span><span class="es">Programas Educativos</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.85rem;color:rgba(255,255,255,0.7);">
+            <span style="color:var(--gold);">●</span>
+            <span class="en">Environmental Action</span><span class="es">Acción Ambiental</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.85rem;color:rgba(255,255,255,0.7);">
+            <span style="color:var(--gold);">●</span>
+            <span class="en">Youth Policy Advocacy</span><span class="es">Incidencia en Políticas Juveniles</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.85rem;color:rgba(255,255,255,0.7);">
+            <span style="color:var(--gold);">●</span>
+            <span class="en">Regional Partnerships</span><span class="es">Alianzas Regionales</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="projects-grid" style="margin-top:2px;">
+    <!-- UNICEF -->
+    <div class="project-card fade-up">
+      <span class="project-tag">UNICEF</span>
+      <div class="project-photo-upload" onclick="triggerUpload('upload-unicef')" title="Click to upload photo">
+        <input type="file" id="upload-unicef" accept="image/*" style="display:none" onchange="previewPhoto(this,'preview-unicef')">
+        <div class="upload-preview" id="preview-unicef">
+          <span class="upload-icon">📷</span>
+          <span class="upload-label">Add photo</span>
+        </div>
+      </div>
+      <h3 class="project-title">Fix My Food</h3>
+      <p class="project-role">
+        <span class="en">Policy Advocate · Food Systems</span>
+        <span class="es">Incidencia en Políticas · Sistemas Alimentarios</span>
+      </p>
+      <p class="project-desc">
+        <span class="en">Engaged with UNICEF's global initiative to transform food environments for children and young people. Carlos contributed to policy recommendations and public advocacy to reshape food systems at a systemic level.</span>
+        <span class="es">Participó en la iniciativa global de UNICEF para transformar los entornos alimentarios para niños y jóvenes. Carlos contribuyó a recomendaciones de políticas y abogacía pública para reformar los sistemas alimentarios a nivel sistémico.</span>
+      </p>
+    </div>
+
+    <!-- UNOY -->
+    <div class="project-card fade-up">
+      <span class="project-tag">UNOY Peacebuilders</span>
+      <div class="project-photo-upload" onclick="triggerUpload('upload-unoy')" title="Click to upload photo">
+        <input type="file" id="upload-unoy" accept="image/*" style="display:none" onchange="previewPhoto(this,'preview-unoy')">
+        <div class="upload-preview" id="preview-unoy">
+          <span class="upload-icon">📷</span>
+          <span class="upload-label">Add photo</span>
+        </div>
+      </div>
+      <h3 class="project-title">
+        <span class="en">Youth & Peace</span>
+        <span class="es">Juventud y Paz</span>
+      </h3>
+      <p class="project-role">
+        <span class="en">Peacebuilding · International Networks</span>
+        <span class="es">Construcción de Paz · Redes Internacionales</span>
+      </p>
+      <p class="project-desc">
+        <span class="en">Active member of the United Network of Young Peacebuilders, contributing to international frameworks that position youth as agents of peace — not just beneficiaries — in conflict-affected and transitioning societies.</span>
+        <span class="es">Miembro activo de la Red Unida de Jóvenes Constructores de Paz, contribuyendo a marcos internacionales que posicionan a los jóvenes como agentes de paz en sociedades afectadas por conflictos.</span>
+      </p>
+    </div>
+
+    <!-- NatGeo + TNC -->
+    <div class="project-card fade-up">
+      <span class="project-tag">NatGeo Society · TNC</span>
+      <div class="project-photo-upload" onclick="triggerUpload('upload-natgeo')" title="Click to upload photo">
+        <input type="file" id="upload-natgeo" accept="image/*" style="display:none" onchange="previewPhoto(this,'preview-natgeo')">
+        <div class="upload-preview" id="preview-natgeo">
+          <span class="upload-icon">📷</span>
+          <span class="upload-label">Add photo</span>
+        </div>
+      </div>
+      <h3 class="project-title">
+        <span class="en">Water & Environment</span>
+        <span class="es">Agua y Medio Ambiente</span>
+      </h3>
+      <p class="project-role">
+        <span class="en">Environmental Research · Conservation</span>
+        <span class="es">Investigación Ambiental · Conservación</span>
+      </p>
+      <p class="project-desc">
+        <span class="en">Collaborated with National Geographic Society and The Nature Conservancy on environmental research and water conservation initiatives, bridging scientific inquiry with community action in the Andean region.</span>
+        <span class="es">Colaboró con National Geographic Society y The Nature Conservancy en investigación ambiental e iniciativas de conservación de agua, vinculando la investigación científica con la acción comunitaria en la región andina.</span>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- VENTURE / BIOVAY -->
+<section id="venture">
+  <div class="venture-grid">
+    <div>
+      <div class="section-label" style="color:var(--mist);">
+        <span class="en">Entrepreneurship</span>
+        <span class="es">Emprendimiento</span>
+      </div>
+      <h2 class="section-title" style="color:var(--white);">
+        <span class="en">Where innovation meets sustainability.</span>
+        <span class="es">Donde la innovación se encuentra con la sostenibilidad.</span>
+      </h2>
+      <p class="venture-desc">
+        <span class="en">BIOVAY is Carlos's bet on the future of sustainable urban infrastructure. Billboard structures that don't pollute — they clean. Using algae-based biotechnology to transform advertising into an environmental solution, operating within a circular economy framework.</span>
+        <span class="es">BIOVAY es la apuesta de Carlos por el futuro de la infraestructura urbana sostenible. Estructuras de vallas publicitarias que no contaminan — limpian. Usando biotecnología a base de algas para transformar la publicidad en una solución ambiental, dentro de un marco de economía circular.</span>
+      </p>
+      <div class="venture-pills">
+        <span class="pill"><span class="en">Algae Biotechnology</span><span class="es">Biotecnología de Algas</span></span>
+        <span class="pill"><span class="en">Circular Economy</span><span class="es">Economía Circular</span></span>
+        <span class="pill"><span class="en">Urban Sustainability</span><span class="es">Sostenibilidad Urbana</span></span>
+        <span class="pill"><span class="en">Patent in Development</span><span class="es">Patente en Desarrollo</span></span>
+        <span class="pill">CO₂ Capture</span>
+        <span class="pill">B2B</span>
+      </div>
+    </div>
+    <div>
+      <div class="biovay-card fade-up">
+        <!-- LOGO UPLOAD -->
+        <div class="biovay-logo-upload" onclick="triggerUpload('upload-biovay-logo')" title="Click to upload logo">
+          <input type="file" id="upload-biovay-logo" accept="image/*" style="display:none" onchange="previewBiovayLogo(this)">
+          <div class="biovay-logo-preview" id="preview-biovay-logo">
+            <span style="font-size:1.4rem;opacity:0.4;">📷</span>
+            <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:0.3rem;">Logo</span>
+          </div>
+        </div>
+        <div class="biovay-name">BIOVAY</div>
+        <div class="biovay-sub">
+          <span class="en">Sustainable Innovation · Ecuador</span>
+          <span class="es">Innovación Sostenible · Ecuador</span>
+        </div>
+        <div class="patent-badge">
+          <span>⚗️</span>
+          <span class="en">Patent in Development</span>
+          <span class="es">Patente en Desarrollo</span>
+        </div>
+        <div style="margin-top:2rem;display:flex;flex-direction:column;gap:0.8rem;text-align:left;">
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:rgba(255,255,255,0.5);">
+            <span><span class="en">Role</span><span class="es">Rol</span></span>
+            <span style="color:rgba(255,255,255,0.8);">CEO &amp; Founder</span>
+          </div>
+          <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:rgba(255,255,255,0.5);">
+            <span><span class="en">Sector</span><span class="es">Sector</span></span>
+            <span style="color:rgba(255,255,255,0.8);">CleanTech / GreenTech</span>
+          </div>
+          <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:rgba(255,255,255,0.5);">
+            <span>Stage</span>
+            <span style="color:var(--gold);">
+              <span class="en">Early-stage / R&amp;D</span>
+              <span class="es">Etapa temprana / I+D</span>
+            </span>
+          </div>
+        </div>
+        <!-- PRODUCT PHOTO UPLOAD -->
+        <div class="biovay-product-upload" onclick="triggerUpload('upload-biovay-product')" title="Click to upload product photo">
+          <input type="file" id="upload-biovay-product" accept="image/*" style="display:none" onchange="previewPhoto(this,'preview-biovay-product')">
+          <div class="upload-preview" id="preview-biovay-product" style="height:100%;">
+            <span class="upload-icon">📷</span>
+            <span class="upload-label"><span class="en">Add product photo</span><span class="es">Foto del producto</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-label">
+    <span class="en">Recognition</span>
+    <span class="es">Reconocimientos</span>
+  </div>
+  <h2 class="section-title">
+    <span class="en">Validated by those<br>who know impact.</span>
+    <span class="es">Validado por quienes<br>conocen el impacto.</span>
+  </h2>
+  <div class="ach-grid">
+    <div class="ach-item fade-up">
+      <div class="ach-icon">🇺🇳</div>
+      <div class="ach-year">2024</div>
+      <div class="ach-title">
+        <span class="en">Pact for the Future — Summit for the Future</span>
+        <span class="es">Pacto del Futuro — Cumbre del Futuro</span>
+      </div>
+      <div class="ach-org">
+        <span class="en">United Nations · Co-creation process</span>
+        <span class="es">Naciones Unidas · Proceso de co-creación</span>
+      </div>
+    </div>
+    <div class="ach-item fade-up">
+      <div class="ach-icon">🏆</div>
+      <div class="ach-year">2024</div>
+      <div class="ach-title">
+        <span class="en">Premio Quito Sostenible</span>
+        <span class="es">Premio Quito Sostenible</span>
+      </div>
+      <div class="ach-org">Municipio de Quito</div>
+    </div>
+    <div class="ach-item fade-up">
+      <div class="ach-icon">🎓</div>
+      <div class="ach-year">2022–2025</div>
+      <div class="ach-title">
+        <span class="en">Academic Excellence × 8</span>
+        <span class="es">Excelencia Académica × 8</span>
+      </div>
+      <div class="ach-org">
+        <span class="en">Universidad San Francisco de Quito</span>
+        <span class="es">Universidad San Francisco de Quito</span>
+      </div>
+    </div>
+    <div class="ach-item fade-up">
+      <div class="ach-icon">🌍</div>
+      <div class="ach-year">Global</div>
+      <div class="ach-title">UNESCO Global Citizenship Education</div>
+      <div class="ach-org">UNESCO</div>
+    </div>
+    <div class="ach-item fade-up">
+      <div class="ach-icon">💡</div>
+      <div class="ach-year">Regional</div>
+      <div class="ach-title">
+        <span class="en">Beca Gente que Inspira</span>
+        <span class="es">Beca Gente que Inspira</span>
+      </div>
+      <div class="ach-org">
+        <span class="en">Inspiring People Scholarship</span>
+        <span class="es">Beca Personas Inspiradoras</span>
+      </div>
+    </div>
+    <div class="ach-item fade-up">
+      <div class="ach-icon">🚀</div>
+      <div class="ach-year">Ongoing</div>
+      <div class="ach-title">
+        <span class="en">BIOVAY Patent Development</span>
+        <span class="es">Desarrollo de Patente BIOVAY</span>
+      </div>
+      <div class="ach-org">
+        <span class="en">Intellectual Property · Ecuador</span>
+        <span class="es">Propiedad Intelectual · Ecuador</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section id="vision">
+  <div class="vision-inner">
+    <div class="section-label">
+      <span class="en">The Vision</span>
+      <span class="es">La Visión</span>
+    </div>
+    <h2 class="vision-quote fade-up">
+      <span class="en">Latin America doesn't need to wait for the world. <em>It needs to lead it.</em></span>
+      <span class="es">América Latina no necesita esperar al mundo. <em>Necesita liderarlo.</em></span>
+    </h2>
+    <p class="vision-body fade-up">
+      <span class="en">The most powerful technologies, the most urgent social challenges, and the most untapped human potential are all concentrated in the Global South. Carlos's mission is to build the systems, networks, and ventures that transform that potential into leadership — starting with youth, scaling to policy, and ending at culture.</span>
+      <span class="es">Las tecnologías más poderosas, los desafíos sociales más urgentes y el potencial humano más inexplorado están concentrados en el Sur Global. La misión de Carlos es construir los sistemas, redes y empresas que transformen ese potencial en liderazgo — comenzando con la juventud, escalando hacia políticas y terminando en la cultura.</span>
+    </p>
+    <a href="#contact" class="btn-primary fade-up" style="background:var(--gold);color:var(--ink);">
+      <span class="en">Let's build something meaningful →</span>
+      <span class="es">Construyamos algo significativo →</span>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">
+    <span class="en">Connect</span>
+    <span class="es">Conectar</span>
+  </div>
+  <div style="max-width:640px;">
+    <h2 class="contact-headline fade-up">
+      <span class="en">Ready to build<br>something together?</span>
+      <span class="es">¿Listo para construir<br>algo juntos?</span>
+    </h2>
+    <p class="contact-sub fade-up">
+      <span class="en">Whether you're offering a scholarship, exploring collaboration, or looking for a speaker who moves audiences — let's talk. Carlos responds personally to every meaningful conversation.</span>
+      <span class="es">Ya sea que ofrezcas una beca, explores colaboración o busques un orador que mueva audiencias — hablemos. Carlos responde personalmente a cada conversación significativa.</span>
+    </p>
+    <div class="contact-links fade-up">
+      <a href="mailto:carlosgabriel1405@gmail.com" class="contact-link">
+        <span class="contact-link-icon">✉</span>
+        <div class="contact-link-info">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-value">carlosgabriel1405@gmail.com</span>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/carlos-canadas-10a656222/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">in</span>
+        <div class="contact-link-info">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">Carlos Cañadas</span>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/carlos_gabriel_canadas/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">◎</span>
+        <div class="contact-link-info">
+          <span class="contact-link-label">Instagram</span>
+          <span class="contact-link-value">@carlos_gabriel_canadas</span>
+        </div>
+      </a>
+      <a href="tel:+593992479695" class="contact-link">
+        <span class="contact-link-icon">☎</span>
+        <div class="contact-link-info">
+          <span class="contact-link-label">Phone / WhatsApp</span>
+          <span class="contact-link-value">+593 992 479 695</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Carlos Cañadas</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://www.linkedin.com/in/carlos-canadas-10a656222/" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div>© 2025 Carlos Cañadas · Ecuador</div>
+</footer>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btnEn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" id="btnEs" onclick="setLang('es')">ES</button>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx - 5 + 'px';
+  cursor.style.top = my - 5 + 'px';
+  rx += (mx - rx) * 0.15;
+  ry += (my - ry) * 0.15;
+  ring.style.left = rx - 18 + 'px';
+  ring.style.top = ry - 18 + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.addEventListener('mousedown', () => cursor.style.transform = 'scale(2.5)');
+document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+
+// NAV SCROLL
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // bars
+      entry.target.querySelectorAll('.impact-bar-fill').forEach(bar => {
+        setTimeout(() => bar.classList.add('animate'), 300);
+      });
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// COUNTER
+function animateCount(el, target, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  function update() {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start).toLocaleString();
+    if (start < target) requestAnimationFrame(update);
+  }
+  update();
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.count-num').forEach(num => {
+        const target = parseInt(num.dataset.target);
+        animateCount(num, target, 1800);
+      });
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+const impactSection = document.getElementById('impact');
+if (impactSection) countObserver.observe(impactSection);
+
+function previewBiovayLogo(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const preview = document.getElementById('preview-biovay-logo');
+    preview.innerHTML = '<img src="' + e.target.result + '" alt="BIOVAY Logo">';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// PHOTO UPLOAD
+function triggerUpload(id) { document.getElementById(id).click(); }
+function previewPhoto(input, previewId) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const preview = document.getElementById(previewId);
+    preview.innerHTML = '<img src="' + e.target.result + '" alt="Project photo">';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// LANGUAGE
+function setLang(lang) {
+  document.body.classList.toggle('lang-es', lang === 'es');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  document.getElementById('btnEs').classList.toggle('active', lang === 'es');
+}
+
+// FORM
+function handleSubmit(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ Sent!';
+  btn.style.background = 'var(--moss)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 3000);
+}
+</script>
+</body>
+</html>
