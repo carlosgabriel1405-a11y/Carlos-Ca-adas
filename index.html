@@ -972,7 +972,11 @@
     <!-- UNICEF -->
     <div class="project-card fade-up">
       <span class="project-tag">UNICEF</span>
-      <div class= "<img src="fixmyfood.png" alt="descripción" style="width:100%; border-radius:12px;">
+      <div class="project-photo-upload" onclick="triggerUpload('upload-unicef')" title="Click to upload photo">
+        <img src="fixmyfood.png" alt="descripción" style="display:none" onchange="previewPhoto(this,'preview-unicef')">
+        <div class="upload-preview" id="preview-unicef">
+          <span class="upload-icon">📷</span>
+          <span class="upload-label">Add photo</span>
         </div>
       </div>
       <h3 class="project-title">Fix My Food</h3>
